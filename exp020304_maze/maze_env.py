@@ -27,10 +27,10 @@ MAZE_W = 4  # grid width
 class Maze(tk.Tk, object):
     def __init__(self, title='maze', refresh_time=0.1):
         super(Maze, self).__init__()
-        self.action_space = ['u', 'd', 'l', 'r']
+        self.action_space = ['↑','↓',  '→', '←']  # 对于计算机来说是 上下左右，但是对于我们来说是上下右左
         self.n_actions = len(self.action_space)
         self.title(title)
-        self.geometry('{0}x{1}'.format(MAZE_H * UNIT, MAZE_H * UNIT))
+        self.geometry('{0}x{1}'.format(MAZE_W * UNIT, MAZE_H * UNIT))
         self._refresh_time = refresh_time
         self._build_maze()
 
@@ -110,6 +110,11 @@ class Maze(tk.Tk, object):
         self.canvas.move(self.rect, base_action[0], base_action[1])  # move agent
 
         s_ = self.canvas.coords(self.rect)  # next state
+
+        print("from [%d,%d] to [%d,%d] %s" % (
+            s[0] // UNIT, s[1] // UNIT, s_[0] // UNIT, s_[1] // UNIT, self.action_space[action]))
+
+        time.sleep(0.5)
 
         # reward function
         if s_ == self.canvas.coords(self.oval):

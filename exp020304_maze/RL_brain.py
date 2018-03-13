@@ -33,7 +33,7 @@ class RL:
         self.lr = learning_rate
         self.gamma = reward_decay
         self.epsilon = e_greedy
-        self.q_table = pd.DataFrame(columns=self.actions)  # 空的DataFrame，用来保存动作和状态之间的关系。
+        self.q_table = pd.DataFrame(columns=self.actions,dtype=np.float64)  # 空的DataFrame，用来保存动作和状态之间的关系。
 
     def check_state_exist(self, state):
         """
@@ -53,7 +53,7 @@ class RL:
         """
         self.check_state_exist(observation)
         if np.random.uniform() < self.epsilon:  # 根据
-            state_action = self.q_table.ix[observation, :]
+            state_action = self.q_table.loc[observation, :]
             # 对各个动作的累积奖赏评期望估值进行乱序然后再选出具有最大评估期望的动作，这样做的目的是为了使得具有相同评估期望的动作有机会被选择
             state_action = state_action.reindex(np.random.permutation(state_action.index))
             action = state_action.idxmax()
@@ -91,7 +91,7 @@ class QLearningTable(RL):
             # 新状态就是终止状态，所以实际的奖励期望只有执行动作得到的奖励
             q_target = reward
         # 更新旧状态执行动作action的奖励值，为实际奖励期望与预期奖励期望的差距的百分比
-        self.q_table.ix[state, action] += self.lr * (q_target - q_predict)
+        self.q_table.loc[state, action] += self.lr * (q_target - q_predict)
 
 
 class SarasTable(RL):

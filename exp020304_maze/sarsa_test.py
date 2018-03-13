@@ -42,7 +42,7 @@ def update():
 
 if __name__ == "__main__":
     env = Maze('saras')
-    RL = SarasTable(actions=list(range(env.n_actions)))
+    RL = SarasTable(actions=list(range(env.n_actions)),learning_rate=0.1)
 
     env.after(100, update)
     env.mainloop()

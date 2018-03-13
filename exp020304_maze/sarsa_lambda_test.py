@@ -44,7 +44,7 @@ def update():
 
 if __name__ == "__main__":
     env = Maze('saras lambda')
-    RL = SarasLambdaTable(actions=list(range(env.n_actions)))
+    RL = SarasLambdaTable(actions=list(range(env.n_actions)), learning_rate=0.3)
 
     env.after(100, update)
     env.mainloop()
